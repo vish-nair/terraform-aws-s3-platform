@@ -2,7 +2,6 @@
 
 [![Terraform Validate](https://github.com/vish-nair/terraform-aws-s3-platform/actions/workflows/validate.yml/badge.svg)](https://github.com/vish-nair/terraform-aws-s3-platform/actions/workflows/validate.yml)
 [![tfsec](https://github.com/vish-nair/terraform-aws-s3-platform/actions/workflows/tfsec.yml/badge.svg)](https://github.com/vish-nair/terraform-aws-s3-platform/actions/workflows/tfsec.yml)
-[![terraform-docs](https://github.com/vish-nair/terraform-aws-s3-platform/actions/workflows/terraform-docs.yml/badge.svg)](https://github.com/vish-nair/terraform-aws-s3-platform/actions/workflows/terraform-docs.yml)
 
 A 3-tier Terraform pattern for managing multiple S3 buckets across environments and applications from a single repository. Designed to be forked and adapted — the structure scales from a handful of buckets to dozens without the root configuration growing unmanageable.
 
