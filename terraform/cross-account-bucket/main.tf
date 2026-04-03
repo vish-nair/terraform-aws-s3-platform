@@ -1,5 +1,5 @@
 module "s3_bucket" {
-  source   = "../../modules/s3_bucket"
+  source   = "../modules/s3_bucket"
   for_each = var.s3_buckets
 
   bucket_name        = each.value.bucket_name
@@ -9,7 +9,7 @@ module "s3_bucket" {
 }
 
 module "lifecycle_config" {
-  source   = "../../modules/lifecycle_config"
+  source   = "../modules/lifecycle_config"
   for_each = var.s3_buckets
 
   bucket_name           = each.value.bucket_name

@@ -1,5 +1,5 @@
 module "s3_bucket" {
-  source   = "../../modules/s3_bucket"
+  source   = "../modules/s3_bucket"
   for_each = var.s3_buckets
 
   bucket_name       = each.value.bucket_name
@@ -10,7 +10,7 @@ module "s3_bucket" {
 
 # IAM role for replication — only created for buckets with replication enabled
 module "iam" {
-  source   = "../../modules/iam"
+  source   = "../modules/iam"
   for_each = { for k, v in var.s3_buckets : k => v if v.enable_replication }
 
   bucket_name        = each.value.bucket_name
@@ -20,7 +20,7 @@ module "iam" {
 }
 
 module "replication" {
-  source   = "../../modules/replication"
+  source   = "../modules/replication"
   for_each = { for k, v in var.s3_buckets : k => v if v.enable_replication }
 
   bucket_name                     = each.value.bucket_name
