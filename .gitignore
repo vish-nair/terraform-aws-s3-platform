@@ -1,0 +1,10 @@
+# IntelliJ IDEA
+.idea/
+
+# Terraform
+.terraform/
+.terraform*
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate*
+*.tfplan
