@@ -1,0 +1,54 @@
+name: Terraform Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  fmt:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Check formatting
+        run: terraform fmt -check -recursive terraform/
+
+  validate:
+    name: Validate (${{ matrix.directory }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - terraform/modules/s3_bucket
+          - terraform/modules/lifecycle_config
+          - terraform/modules/iam
+          - terraform/modules/replication
+          - terraform/modules/access_point
+          - terraform/modules/s3_bucket_encryption
+          - terraform/simple-bucket
+          - terraform/cross-account-bucket
+          - terraform/replication-bucket
+          - terraform/app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Init
+        working-directory: ${{ matrix.directory }}
+        run: terraform init -backend=false
+
+      - name: Validate
+        working-directory: ${{ matrix.directory }}
+        run: terraform validate

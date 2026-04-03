@@ -1,0 +1,27 @@
+name: tfsec Security Scan
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tfsec:
+    name: tfsec
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # required to upload SARIF results
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: terraform/
+          # soft_fail: true allows the workflow to pass even with findings.
+          # Set to false to enforce a hard block on security violations.
+          soft_fail: false
+          github_token: ${{ github.token }}

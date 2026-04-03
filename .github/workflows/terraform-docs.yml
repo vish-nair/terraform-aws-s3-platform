@@ -1,0 +1,45 @@
+name: terraform-docs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "terraform/modules/**"
+      - "terraform/simple-bucket/**"
+      - "terraform/cross-account-bucket/**"
+      - "terraform/replication-bucket/**"
+
+jobs:
+  docs:
+    name: Generate docs (${{ matrix.directory }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # required to push the updated README back
+
+    strategy:
+      matrix:
+        directory:
+          - terraform/modules/s3_bucket
+          - terraform/modules/lifecycle_config
+          - terraform/modules/iam
+          - terraform/modules/replication
+          - terraform/modules/access_point
+          - terraform/modules/s3_bucket_encryption
+          - terraform/simple-bucket
+          - terraform/cross-account-bucket
+          - terraform/replication-bucket
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Render terraform docs
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          working-dir: ${{ matrix.directory }}
+          output-file: README.md
+          output-method: inject
+          git-push: true
+          git-commit-message: "docs: update ${{ matrix.directory }} README [skip ci]"
