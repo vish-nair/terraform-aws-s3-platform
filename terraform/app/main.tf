@@ -17,9 +17,9 @@ provider "aws" {
 module "simple_bucket" {
   source = "../simple-bucket"
 
-  env       = var.env
-  region    = var.region
-  workspace = var.workspace
+  env        = var.env
+  region     = var.region
+  workspace  = var.workspace
   s3_buckets = var.simple_buckets
 }
 
@@ -29,9 +29,9 @@ module "cross_account_bucket" {
   count  = contains(["stg", "prd"], var.env) ? 1 : 0
   source = "../cross-account-bucket"
 
-  env       = var.env
-  region    = var.region
-  workspace = var.workspace
+  env        = var.env
+  region     = var.region
+  workspace  = var.workspace
   s3_buckets = var.cross_account_buckets
 }
 
@@ -41,8 +41,8 @@ module "replication_bucket" {
   count  = contains(["stg", "prd"], var.env) ? 1 : 0
   source = "../replication-bucket"
 
-  env       = var.env
-  region    = var.region
-  workspace = var.workspace
+  env        = var.env
+  region     = var.region
+  workspace  = var.workspace
   s3_buckets = var.replication_buckets
 }
