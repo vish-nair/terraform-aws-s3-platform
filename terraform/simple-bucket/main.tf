@@ -19,3 +19,13 @@ module "lifecycle_config" {
   lifecycle_prefix      = each.value.lifecycle_prefix
   lifecycle_days        = each.value.lifecycle_days
 }
+
+module "access_point" {
+  source   = "../modules/access_point"
+  for_each = { for k, v in var.s3_buckets : k => v if v.vpc_id != "" }
+
+  bucket_name = each.value.bucket_name
+  vpc_id      = each.value.vpc_id
+
+  depends_on = [module.s3_bucket]
+}

@@ -12,6 +12,7 @@ simple_buckets = {
     lifecycle_rule_name   = "expire-processed"
     lifecycle_prefix      = "processed/"
     lifecycle_days        = 30
+    vpc_id                = ""
   }
 }
 
