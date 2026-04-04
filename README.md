@@ -53,7 +53,7 @@ A 3-tier Terraform pattern for managing multiple S3 buckets across environments 
 ## Tier-2 App Modules
 
 ### `simple-bucket`
-Basic S3 bucket with an account-root bucket policy and optional lifecycle expiration. The starting point for most use cases.
+Basic S3 bucket with an account-root bucket policy and optional lifecycle expiration. Supports VPC-scoped access via an S3 access point — set `vpc_id` on any bucket entry to restrict access to a specific VPC. The starting point for most use cases.
 
 ### `cross-account-bucket`
 Extends `simple-bucket` with a second policy statement granting a role or account in another AWS account scoped `GetObject`, `PutObject`, and `ListBucket` access.
@@ -131,6 +131,25 @@ simple_buckets = {
     lifecycle_rule_name   = "expire-logs"
     lifecycle_prefix      = ""
     lifecycle_days        = 365
+    vpc_id                = ""
+  }
+}
+```
+
+To restrict bucket access to a VPC, set `vpc_id`. An S3 access point with `vpc_configuration` will be created automatically:
+
+```hcl
+simple_buckets = {
+  "app-data" = {
+    bucket_name           = "dev-app-data-bucket"
+    bucket_ownership      = "BucketOwnerEnforced"
+    enable_eventbridge    = false
+    directories           = ["uploads/", "processed/"]
+    create_lifecycle_rule = true
+    lifecycle_rule_name   = "expire-processed"
+    lifecycle_prefix      = "processed/"
+    lifecycle_days        = 30
+    vpc_id                = "vpc-0abc123456789def0"
   }
 }
 ```

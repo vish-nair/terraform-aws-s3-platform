@@ -9,6 +9,7 @@ variable "s3_buckets" {
     lifecycle_rule_name   = string
     lifecycle_prefix      = string
     lifecycle_days        = number
+    vpc_id                = optional(string, "")
   }))
 }
 
